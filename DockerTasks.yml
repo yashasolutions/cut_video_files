@@ -1,0 +1,15 @@
+---
+version: '3'
+
+vars:
+  CONTAINER_IMAGE: cutvideo
+
+tasks:
+  build:
+    desc: Construction de l'image Docker
+    cmds:
+      - podman build -t {{.CONTAINER_IMAGE}} -f Dockerfile .
+  exec:
+    desc: Execute le container
+    cmds:
+      - podman run -it --rm --network host -p 8080:8080 -v "$(pwd)"/output:/usr/app/output {{.CONTAINER_IMAGE}}
